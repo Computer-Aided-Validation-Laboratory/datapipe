@@ -7,7 +7,7 @@
 #_* MOOSEHERDER VARIABLES - START
 
 # Mechanical Loads/BCs
-topDisp = 1.5e-3
+topDisp = 0.5e-3
 
 # Material Properties: OFHC Copper 250degC
 cuEMod= 108e9   # Pa

@@ -20,6 +20,7 @@ import pyvale.imagesim.imagedef as sid
 
 
 def main() -> None:
+
     print()
     print("="*80)
     print("PYVALE EXAMPLE: IMAGE DEFORMATION 2D MINIMAL")
@@ -28,14 +29,14 @@ def main() -> None:
     # needs to be generated from a full speckled image using the simulation data.
     # This example also deals with complex geometry including holes and notches
 
-    im_path = Path("src/data/imageref")
+    im_path = Path("data/imageref")
     im_file = "optspeckle_2464x2056px_spec5px_8bit_gblur1px.tiff"
     im_path = im_path / im_file
 
     print(f"\nLoading image to deform from path:{im_path}\n")
     input_im = sid.load_image(im_path)
 
-    sim_path = Path("src/data/moosetransient")
+    sim_path = Path("data/moosetransient")
     sim_file = "sim_moose_transient_out.e"
 
     print(f"\nLoading SimData from exodus in path:\n{sim_path}")
@@ -69,14 +70,16 @@ def main() -> None:
     del sim_data # don"t need this anymore so can get rid of it
 
     id_opts = ImageDefOpts()
-    id_opts.save_path = sim_path / "deformed_images"
+    id_opts.save_path = Path("data/imagesdef")
+    id_opts.save_tag = "Image"
     id_opts.mask_input_image = True
     id_opts.def_complex_geom = True
     id_opts.crop_on = False
-    #id_opts.crop_px = np.array([1000,1600])
+    #id_opts.crop_px = np.array([2056,2464])
     id_opts.calc_res_from_fe = True
     id_opts.calc_res_border_px = 50
     id_opts.add_static_ref = "off"
+
 
     print("\n"+"-"*80)
     print("ImageDefOpts:")
@@ -84,7 +87,7 @@ def main() -> None:
     print("-"*80+"\n")
 
     camera = CameraImageDef()
-    camera.num_px = id_opts.crop_px
+    camera.num_px = np.array([2464,2056])
     camera.bits = 8
     if id_opts.calc_res_from_fe:
         camera.m_per_px = sid.calc_res_from_nodes(camera,coords, #type: ignore
