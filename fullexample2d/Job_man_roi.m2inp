@@ -19,20 +19,20 @@ $View as matchid.exe -show "F:\datapipe\data\imagesdef\Job_man_roi.m2inp"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% s_Filename Reference Image
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-<Reference$image>=<F:\datapipe\data\imagesdef\Image_0000.tiff>
+<Reference$image>=<F:\datapipe\data\imagesdef\Image_0000_0.tiff>
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%% <Deformed$image> = 
+%%%%%% <Deformed$image> =
 %%%%%% 	 <s_FullPathOfDeformedImage; i_NumberOfROIs;i_IndexOfROI_1;i_IndexSeed;s_GuessROI1;  i_ArrayOfGuessValuesROI1; ...; i_IndexOfROI_N; ...; i_ArrayOfGuessValuesROI1>
-%%%%%% 
+%%%%%%
 %%%%%% Remarks:
 %%%%%% i_IndexSeed: 0 refers to the InitialSubset. Other indices should comply with the ones in the extra seed list.
 %%%%%% i_ArrayOfGuessValuesROI:
-%%%%%% 	 if (s_GuessROI == None) i_ArrayOfGuessValuesROI should be omitted. 
-%%%%%% 	 if (s_GuessROI == Translation) i_ArrayOfGuessValuesROI= [i_guess_Horizontal;i_guess_Vertical] 
-%%%%%% 	 if (s_GuessROI == Complete) i_ArrayOfGuessValuesROI= [i_guess_H_1; i_guess_V_1; i_guess_H_2; i_guess_V_2;i_guess_H_3; i_guess_V_3] 
+%%%%%% 	 if (s_GuessROI == None) i_ArrayOfGuessValuesROI should be omitted.
+%%%%%% 	 if (s_GuessROI == Translation) i_ArrayOfGuessValuesROI= [i_guess_Horizontal;i_guess_Vertical]
+%%%%%% 	 if (s_GuessROI == Complete) i_ArrayOfGuessValuesROI= [i_guess_H_1; i_guess_V_1; i_guess_H_2; i_guess_V_2;i_guess_H_3; i_guess_V_3]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-<Deformed$image>=<F:\datapipe\data\imagesdef\Image_0001.tiff;2;0;0;None>
+<Deformed$image>=<F:\datapipe\data\imagesdef\Image_0001_0.tiff;2;0;0;None>
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% i_Methodology
@@ -108,7 +108,7 @@ $View as matchid.exe -show "F:\datapipe\data\imagesdef\Job_man_roi.m2inp"
 <SkipOverlap>=<True>
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%% i_Estimated Maximal rigid body displacement [pixels] 
+%%%%%% i_Estimated Maximal rigid body displacement [pixels]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 <Maximal$rigid>=<100>
 
@@ -119,7 +119,7 @@ $View as matchid.exe -show "F:\datapipe\data\imagesdef\Job_man_roi.m2inp"
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% i_Progress History
-%%%%%% Full Scan = 0, Spatial = 1, Spatial + Update Reference = 2 
+%%%%%% Full Scan = 0, Spatial = 1, Spatial + Update Reference = 2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 <History>=<1>
 
@@ -146,8 +146,8 @@ $View as matchid.exe -show "F:\datapipe\data\imagesdef\Job_man_roi.m2inp"
 <Processors>=<64>
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%% d_Camera  intrinsic parameters 
-%%%%%% Order: Fx, Fy, Fs, K1, K2, K3, P1, P2, Cx, Cy, Xoffset, Yoffset 
+%%%%%% d_Camera  intrinsic parameters
+%%%%%% Order: Fx, Fy, Fs, K1, K2, K3, P1, P2, Cx, Cy, Xoffset, Yoffset
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 <Cameraintrinsic>=<0;0;0;0;0;0;0;0;0;0;0;0>
 
@@ -230,12 +230,12 @@ $View as matchid.exe -show "F:\datapipe\data\imagesdef\Job_man_roi.m2inp"
 %%%%%% 	 Polygon: <2; i_IndexOfROI; b_Type; i_Number_of_control_points; [N control points] i_X1; i_Y1; ... ;i_X_N; i_YN; i_X_InitialSubset; i_Y_InitialSubset; [Optional: i_LocalSubsetSize; i_LocalStepSize; i_LocalShapeFunction]>
 %%%%%% <Extensometer>=
 %%%%%% 	 <3; i_IndexOfROI_Marker1; i_Marker1_X; i_Marker1_Y);i_IndexOfROI_Marker2; i_Marker2_X;i_Marker2_Y; [Optional: i_LocalSubsetSize; i_LocalShapeFunction]>
-%%%%%% 
+%%%%%%
 %%%%%% Remarks:
-%%%%%% 	 IndexOfROI:  Index of the ROI. Index should comply to the initial guess indices of the deformed images 
+%%%%%% 	 IndexOfROI:  Index of the ROI. Index should comply to the initial guess indices of the deformed images
 %%%%%% 	 Type:  Cutting = True, Selection = False;
-%%%%%% 	 If Cutting = True, the initialsubset positions can be omitted. 
-%%%%%% 	 LocalSubsetSize/LocalStepSize/LocalShapeFunction can be omitted in the definition above. In that case the global settings are adopted.  Local definitions overrule the global definitions. In that case, ALL of local definitions must be present! 
+%%%%%% 	 If Cutting = True, the initialsubset positions can be omitted.
+%%%%%% 	 LocalSubsetSize/LocalStepSize/LocalShapeFunction can be omitted in the definition above. In that case the global settings are adopted.  Local definitions overrule the global definitions. In that case, ALL of local definitions must be present!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 <Shape>=<2;0;False;4;582;52;1881;52;1881;2004;582;2004;1180;720>
 <Shape>=<1;1;True;1232;1028;164;1232;864;1396;1031;1089;1109>
