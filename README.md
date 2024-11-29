@@ -64,23 +64,15 @@ To make the data pipeline work the input file will need to automatically updated
 The most likely causes of MatchID not being able to run an input file include:
 - License issues: open a GUI version of windows, use the start menu to search for the MatchID license manager, open this program and check the license status. If it has experied a license update is required
 - Full paths in the input file are not consistent with  
-- The region of interest is not specified for the calculation or is not consistent  
+- The region of interest is not specified for the calculation or is not consistent
+
+For the path and regions of interest issue it is possible to rebuild the MatchID input file using the MatchID GUI.
 
 ### Data Simulator
 The data simulation tool [here](https://github.com/Applied-Materials-Technology/data-simulator) uses the data in the "matchid2d" folder to generate a simulated data stream. The four images are places into a ring buffer and continuously output to the target directory. The same ring buffer is used to replicate rows of the \*.csv file as a single file or as one file per frame.
 
 ### Robocopy
-The data coming from the cameras will need to be saved directly to the SSD on the local data capture computer to avoid transfer bottlenecks. This means that we will need to sync the data to a common drive (in this case the Applied Materials Technology space on the Powerscale) so the data is visible to all computers in the data pipeline. This will be done with the windows `robocopy` tool using the `/MON:` flag to 'monitor' and update at a given interval.
-
-The general syntax for `robocopy` to monitor and update every 1 minute is:
-```
-robocopy C:\pathto\source D:\pathto\destination /E /MON:1
-```
-
-This example transfers data from the local SSD on workstation L2918 'F:' to the powerscale:
-```
-
-```
+Data syncing
 
 ## Simulation Pipeline with MOOSE
 Here we demonstrate a MOOSE simulation of a 2D plate with a hole in the centre. We note that this is the same simulation that was used to generate the simulated images in the "matchid2d" folder so the simulation should be directly comparable to the MatchID 2D output.
@@ -88,7 +80,21 @@ Here we demonstrate a MOOSE simulation of a 2D plate with a hole in the centre. 
 This simulation will run on a linux machine and you will need to install a suitable MOOSE build such as `proteus` here: https://github.com/aurora-multiphysics/proteus. 
 
 
-## Full Worked Example in 2D
-Here is a full worked example of running each part of the pipeline in order:
 
-1.
+
+## Full Worked Example in 2D
+Here we will run a worked example using workstation L2918 logged into a windows GUI session. The local SSD is mapped to drive F: and the powerscale is mapped to drive P:. We will use the data-simulator tool to generate images in the following directory 'F:\lloydf\datapipe-test\' with a frequency of . We will use robocopy to sync these images with the power scale every min
+
+Here is a worked example of running each part of the pipeline in order:
+
+1. Open 3 terminals they will be used for the following actions: 1) running the data-simulator to generate images on the 'local' drive; 2) run robocopy to mirror the data from the local SSD to the powerscale; and 3) running MatchID. 
+2. Terminal 1: Navigate to the directory for the virtual environment in which the data-simulator is installed and activate it.
+3. Terminal 2: Start robocopy monitoring the output path and copying across to the test path on the powerscale:
+```
+
+```
+4. Terminal 1: start the data simulator with the following command (assumes use of py launcher for multiple pythons versions on windows):
+ ```
+ py -3.9 -m data-sim --duration 300.0 --output "F:\lloydf\datapipe-test\" --frequency 1.0
+ ```
+  
