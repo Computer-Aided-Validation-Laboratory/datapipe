@@ -72,15 +72,24 @@ For the path and regions of interest issue it is possible to rebuild the MatchID
 The data simulation tool [here](https://github.com/Applied-Materials-Technology/data-simulator) uses the data in the "matchid2d" folder to generate a simulated data stream. The four images are places into a ring buffer and continuously output to the target directory. The same ring buffer is used to replicate rows of the \*.csv file as a single file or as one file per frame.
 
 ### Robocopy
-Data syncing
+The data coming from the cameras will need to be saved directly to the SSD on the local data capture computer to avoid transfer bottlenecks. This means that we will need to sync the data to a common drive (in this case the Applied Materials Technology space on the Powerscale) so the data is visible to all computers in the data pipeline. This will be done with the windows `robocopy` tool using the `/MON:` flag to 'monitor' and update at a given interval.
+
+The general syntax for `robocopy` to monitor and update every 1 minute is:
+```
+robocopy C:\pathto\source D:\pathto\destination /E /MON:1
+```
+
+This example transfers data from the local SSD on workstation L2918 'F:' to the powerscale:
+```
+robocopy F:\lloydf\datapipe-test\ P:\ /E /MON:1
+```
 
 ## Simulation Pipeline with MOOSE
 Here we demonstrate a MOOSE simulation of a 2D plate with a hole in the centre. We note that this is the same simulation that was used to generate the simulated images in the "matchid2d" folder so the simulation should be directly comparable to the MatchID 2D output.
 
 This simulation will run on a linux machine and you will need to install a suitable MOOSE build such as `proteus` here: https://github.com/aurora-multiphysics/proteus. 
 
-
-
+**TODO**
 
 ## Full Worked Example in 2D
 Here we will run a worked example using workstation L2918 logged into a windows GUI session. The local SSD is mapped to drive F: and the powerscale is mapped to drive P:. We will use the data-simulator tool to generate images in the following directory 'F:\lloydf\datapipe-test\' with a frequency of . We will use robocopy to sync these images with the power scale every min
