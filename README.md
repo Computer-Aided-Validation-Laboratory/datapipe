@@ -60,6 +60,12 @@ By default this is set to the directory containing the reference and deformed im
 
 To make the data pipeline work the input file will need to automatically updated to have consistent full paths to the data to be processed.
 
+**Troubleshooting**
+The most likely causes of MatchID not being able to run an input file include:
+- License issues: open a GUI version of windows, use the start menu to search for the MatchID license manager, open this program and check the license status. If it has experied a license update is required
+- Full paths in the input file are not consistent with  
+- The region of interest is not specified for the calculation or is not consistent  
+
 ### Data Simulator
 The data simulation tool [here](https://github.com/Applied-Materials-Technology/data-simulator) uses the data in the "matchid2d" folder to generate a simulated data stream. The four images are places into a ring buffer and continuously output to the target directory. The same ring buffer is used to replicate rows of the \*.csv file as a single file or as one file per frame.
 
