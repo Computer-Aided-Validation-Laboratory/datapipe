@@ -60,7 +60,7 @@ By default this is set to the directory containing the reference and deformed im
 
 To make the data pipeline work the input file will need to automatically updated to have consistent full paths to the data to be processed.
 
-**Troubleshooting**
+**Troubleshooting**  
 The most likely causes of MatchID not being able to run an input file include:
 - License issues: open a GUI version of windows, use the start menu to search for the MatchID license manager, open this program and check the license status. If it has experied a license update is required
 - Full paths in the input file are not consistent with  
@@ -69,7 +69,7 @@ The most likely causes of MatchID not being able to run an input file include:
 For the path and regions of interest issue it is possible to rebuild the MatchID input file using the MatchID GUI.
 
 ### Data Simulator
-The data simulation tool [here](https://github.com/Applied-Materials-Technology/data-simulator) uses the data in the "matchid2d" folder to generate a simulated data stream. The four images are places into a ring buffer and continuously output to the target directory. The same ring buffer is used to replicate rows of the \*.csv file as a single file or as one file per frame.
+The data simulation tool [here](https://github.com/Applied-Materials-Technology/data-simulator) uses the data in the "matchid2d" folder to generate a simulated data stream. The four images are places into a ring buffer and continuously output to the target directory. The same ring buffer is used to replicate rows of the \*.csv file as a single file or as one file per frame. You will need to install the data simulator into a suitable python virtual environment.
 
 ### Robocopy
 The data coming from the cameras will need to be saved directly to the SSD on the local data capture computer to avoid transfer bottlenecks. This means that we will need to sync the data to a common drive (in this case the Applied Materials Technology space on the Powerscale) so the data is visible to all computers in the data pipeline. This will be done with the windows `robocopy` tool using the `/MON:` flag to 'monitor' and update at a given interval.
@@ -81,8 +81,12 @@ robocopy C:\pathto\source D:\pathto\destination /E /MON:1
 
 This example transfers data from the local SSD on workstation L2918 'F:' to the powerscale:
 ```
-robocopy F:\lloydf\datapipe-test\ P:\ /E /MON:1
+robocopy F:\lloydf\datapipe-test\ P:\Temp\PipelineTest\TestMatchID /E /MON:1
 ```
+Note that the maximum update frequency for robocopy is specified in minutes as an integer so the fastest update time is 1 minute. We will need a much faster solution for this in the future. A possibility is the version of robocopy that detects N changes rather than checking on a given frequency but I could not get this to work.
+
+**Troubleshooting**  
+I had issues with `robocopy` not existing when I tried to call it from the windows terminal. I had to fix this by adding "C:\windows\system32" to my PATH as described above for multiple python versions.
 
 ## Simulation Pipeline with MOOSE
 Here we demonstrate a MOOSE simulation of a 2D plate with a hole in the centre. We note that this is the same simulation that was used to generate the simulated images in the "matchid2d" folder so the simulation should be directly comparable to the MatchID 2D output.
@@ -96,14 +100,30 @@ Here we will run a worked example using workstation L2918 logged into a windows 
 
 Here is a worked example of running each part of the pipeline in order:
 
-1. Open 3 terminals they will be used for the following actions: 1) running the data-simulator to generate images on the 'local' drive; 2) run robocopy to mirror the data from the local SSD to the powerscale; and 3) running MatchID. 
+1. Open 3 terminals they will be used for the following actions: 1) running the data-simulator to generate images on the 'local' drive; 2) run robocopy to mirror the data from the local SSD to the powerscale; and 3) running MatchID. Open all of these terminals to the local data SSD which is F: in this case.
 2. Terminal 1: Navigate to the directory for the virtual environment in which the data-simulator is installed and activate it.
 3. Terminal 2: Start robocopy monitoring the output path and copying across to the test path on the powerscale:
 ```
-
+robocopy F:\lloydf\datapipe-test\ P:\Temp\PipelineTest\TestMatchID /E /MON:1
 ```
 4. Terminal 1: start the data simulator with the following command (assumes use of py launcher for multiple pythons versions on windows):
  ```
- py -3.9 -m data-sim --duration 300.0 --output "F:\lloydf\datapipe-test\" --frequency 1.0
+python -m datasim --duration 300.0 --output "F:/lloydf/datapipe-test" --frequency 1.0
  ```
-  
+5. Wait approximately 60 seconds and then make sure robocopy is syncing files to the power scale.
+6. Terminal 3: Run MatchID on the images which have been moved to the powerscale (P:) drive. Note that we will use a manually pre-modified \*.m2inp with full paths pointing to the P: drive. A tool will need to be developed to do this automatically in the future.
+```
+matchid.exe "F:\lloydf\matchid\Job_man_roi_powerscale.m2inp"
+```
+7. Check that the output has appeared in the output \*.dat has appeared in the output directory specified in the \*.m2inp which is "P:\Temp\PipelineTest\TestMatchIDOutput"
+8. Check that the data has processed correctly by opening it in the results viewer:
+```
+matchid.exe -show "F:\lloydf\matchid\Job_man_roi_powerscale.m2inp"
+```
+You should see the following:
+|![fig_matchid2d_output](readmedata/MatchIDOutput.png)|
+|:--:|
+|*MatchID results viewer showing the expected output.*|
+
+**Extension to a Fully Working Pipeline**  
+- TODO
