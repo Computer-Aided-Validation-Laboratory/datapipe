@@ -64,14 +64,22 @@ To make the data pipeline work the input file will need to automatically updated
 The data simulation tool [here](https://github.com/Applied-Materials-Technology/data-simulator) uses the data in the "matchid2d" folder to generate a simulated data stream. The four images are places into a ring buffer and continuously output to the target directory. The same ring buffer is used to replicate rows of the \*.csv file as a single file or as one file per frame.
 
 ### Robocopy
-Data syncing
+The data coming from the cameras will need to be saved directly to the SSD on the local data capture computer to avoid transfer bottlenecks. This means that we will need to sync the data to a common drive (in this case the Applied Materials Technology space on the Powerscale) so the data is visible to all computers in the data pipeline. This will be done with the windows `robocopy` tool using the `/MON:` flag to 'monitor' and update at a given interval.
+
+The general syntax for `robocopy` to monitor and update every 1 minute is:
+```
+robocopy C:\pathto\source D:\pathto\destination /E /MON:1
+```
+
+This example transfers data from the local SSD on workstation L2918 'F:' to the powerscale:
+```
+
+```
 
 ## Simulation Pipeline with MOOSE
 Here we demonstrate a MOOSE simulation of a 2D plate with a hole in the centre. We note that this is the same simulation that was used to generate the simulated images in the "matchid2d" folder so the simulation should be directly comparable to the MatchID 2D output.
 
 This simulation will run on a linux machine and you will need to install a suitable MOOSE build such as `proteus` here: https://github.com/aurora-multiphysics/proteus. 
-
-
 
 
 ## Full Worked Example in 2D
