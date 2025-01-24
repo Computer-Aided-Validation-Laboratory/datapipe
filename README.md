@@ -126,15 +126,15 @@ You should see the following:
 |*MatchID results viewer showing the expected output.*|
 
 ## Full Worked Example in Stereo-3D
-Here we will run a worked example using workstation L2918 logged into a windows GUI session. The local SSD is mapped to drive F: and the powerscale is mapped to drive P:. We will use the data-simulator tool to generate images in the following directory 'F:\lloydf\datapipe-test\' with a frequency of 1.0 Hz. We will use robocopy to sync these images with the power scale every minute.
+Here we will run a worked example using workstation L2918 logged into a windows GUI session. The local SSD is mapped to drive F: and the powerscale is mapped to drive P:. We will use the data-simulator tool to generate images in the following directory 'F:\lloydf\datapipe-test-stereo\' with a frequency of 1.0 Hz. We will use robocopy to sync these images with the power scale every minute.
 
 1. Open 3 terminals they will be used for the following actions: 1) running the data-simulator to generate images on the 'local' drive; 2) run robocopy to mirror the data from the local SSD to the powerscale; and 3) running MatchID. Open all of these terminals to the local data SSD which is F: in this case.
 2. Terminal 1: Navigate to the directory for the virtual environment in which the data-simulator is installed and activate it.
 3. Terminal 2: Start robocopy monitoring the output path and copying across to the test path on the powerscale:
 ```
-robocopy F:\lloydf\datapipe-test\ P:\Temp\PipelineTest\TestMatchID /E /MON:1
+robocopy F:\lloydf\datapipe-test-stereo\ P:\Temp\PipelineTest\TestMatchIDStereo /E /MON:1
 ```
 4. Terminal 1: start the data simulator with the following command (assumes use of py launcher for multiple pythons versions on windows):
  ```
-python -m datasim --duration 300.0 --output "F:/lloydf/datapipe-test" --frequency 1.0 --stereo True
+python -m datasim --duration 300.0 --output "F:/lloydf/datapipe-test-stereo" --frequency 1.0 --stereo True
  ```
