@@ -60,10 +60,10 @@ By default this is set to the directory containing the reference and deformed im
 
 To make the data pipeline work the input file will need to automatically updated to have consistent full paths to the data to be processed.
 
-**Troubleshooting**  
+**Troubleshooting**
 The most likely causes of MatchID not being able to run an input file include:
 - License issues: open a GUI version of windows, use the start menu to search for the MatchID license manager, open this program and check the license status. If it has experied a license update is required
-- Full paths in the input file are not consistent with  
+- Full paths in the input file are not consistent with
 - The region of interest is not specified for the calculation or is not consistent
 
 For the path and regions of interest issue it is possible to rebuild the MatchID input file using the MatchID GUI.
@@ -85,18 +85,18 @@ robocopy F:\lloydf\datapipe-test\ P:\Temp\PipelineTest\TestMatchID /E /MON:1
 ```
 Note that the maximum update frequency for robocopy is specified in minutes as an integer so the fastest update time is 1 minute. We will need a much faster solution for this in the future. A possibility is the version of robocopy that detects N changes rather than checking on a given frequency but I could not get this to work.
 
-**Troubleshooting**  
+**Troubleshooting**
 I had issues with `robocopy` not existing when I tried to call it from the windows terminal. I had to fix this by adding "C:\windows\system32" to my PATH as described above for multiple python versions.
 
 ## Simulation Pipeline with MOOSE
 Here we demonstrate a MOOSE simulation of a 2D plate with a hole in the centre. We note that this is the same simulation that was used to generate the simulated images in the "matchid2d" folder so the simulation should be directly comparable to the MatchID 2D output.
 
-This simulation will run on a linux machine and you will need to install a suitable MOOSE build such as `proteus` here: https://github.com/aurora-multiphysics/proteus. 
+This simulation will run on a linux machine and you will need to install a suitable MOOSE build such as `proteus` here: https://github.com/aurora-multiphysics/proteus.
 
 **TODO**
 
 ## Full Worked Example in 2D
-Here we will run a worked example using workstation L2918 logged into a windows GUI session. The local SSD is mapped to drive F: and the powerscale is mapped to drive P:. We will use the data-simulator tool to generate images in the following directory 'F:\lloydf\datapipe-test\' with a frequency of . We will use robocopy to sync these images with the power scale every min
+Here we will run a worked example using workstation L2918 logged into a windows GUI session. The local SSD is mapped to drive F: and the powerscale is mapped to drive P:. We will use the data-simulator tool to generate images in the following directory 'F:\lloydf\datapipe-test\' with a frequency of 1.0 Hz. We will use robocopy to sync these images with the power scale every minute.
 
 Here is a worked example of running each part of the pipeline in order:
 
@@ -115,7 +115,7 @@ python -m datasim --duration 300.0 --output "F:/lloydf/datapipe-test" --frequenc
 ```
 matchid.exe "F:\lloydf\matchid\Job_man_roi_powerscale.m2inp"
 ```
-7. Check that the output has appeared in the output \*.dat has appeared in the output directory specified in the \*.m2inp which is "P:\Temp\PipelineTest\TestMatchIDOutput"
+7. Check that the output has appeared in the output \*.dat has appeared in the output directory specified in the \*.m3inp which is "P:\Temp\PipelineTest\TestMatchIDOutput"
 8. Check that the data has processed correctly by opening it in the results viewer:
 ```
 matchid.exe -show "F:\lloydf\matchid\Job_man_roi_powerscale.m2inp"
@@ -125,5 +125,16 @@ You should see the following:
 |:--:|
 |*MatchID results viewer showing the expected output.*|
 
-**Extension to a Fully Working Pipeline**  
-- TODO
+## Full Worked Example in Stereo-3D
+Here we will run a worked example using workstation L2918 logged into a windows GUI session. The local SSD is mapped to drive F: and the powerscale is mapped to drive P:. We will use the data-simulator tool to generate images in the following directory 'F:\lloydf\datapipe-test\' with a frequency of 1.0 Hz. We will use robocopy to sync these images with the power scale every minute.
+
+1. Open 3 terminals they will be used for the following actions: 1) running the data-simulator to generate images on the 'local' drive; 2) run robocopy to mirror the data from the local SSD to the powerscale; and 3) running MatchID. Open all of these terminals to the local data SSD which is F: in this case.
+2. Terminal 1: Navigate to the directory for the virtual environment in which the data-simulator is installed and activate it.
+3. Terminal 2: Start robocopy monitoring the output path and copying across to the test path on the powerscale:
+```
+robocopy F:\lloydf\datapipe-test\ P:\Temp\PipelineTest\TestMatchID /E /MON:1
+```
+4. Terminal 1: start the data simulator with the following command (assumes use of py launcher for multiple pythons versions on windows):
+ ```
+python -m datasim --duration 300.0 --output "F:/lloydf/datapipe-test" --frequency 1.0 --stereo True
+ ```
