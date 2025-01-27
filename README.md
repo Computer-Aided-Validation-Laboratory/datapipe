@@ -115,7 +115,7 @@ python -m datasim --duration 300.0 --output "F:/lloydf/datapipe-test" --frequenc
 ```
 matchid.exe "F:\lloydf\matchid\Job_man_roi_powerscale.m2inp"
 ```
-7. Check that the output has appeared in the output \*.dat has appeared in the output directory specified in the \*.m3inp which is "P:\Temp\PipelineTest\TestMatchIDOutput"
+7. Check that the output has appeared in the output \*.dat has appeared in the output directory specified in the \*.m2inp which is "P:\Temp\PipelineTest\TestMatchIDOutput"
 8. Check that the data has processed correctly by opening it in the results viewer:
 ```
 matchid.exe -show "F:\lloydf\matchid\Job_man_roi_powerscale.m2inp"
@@ -123,7 +123,7 @@ matchid.exe -show "F:\lloydf\matchid\Job_man_roi_powerscale.m2inp"
 You should see the following:
 |![fig_matchid2d_output](readmedata/MatchIDOutput.png)|
 |:--:|
-|*MatchID results viewer showing the expected output.*|
+|*MatchID results viewer showing the expected output for the 2D test case.*|
 
 ## Full Worked Example in Stereo-3D
 Here we will run a worked example using workstation L2918 logged into a windows GUI session. The local SSD is mapped to drive F: and the powerscale is mapped to drive P:. We will use the data-simulator tool to generate images in the following directory 'F:\lloydf\datapipe-test-stereo\' with a frequency of 1.0 Hz. We will use robocopy to sync these images with the power scale every minute.
@@ -138,3 +138,18 @@ robocopy F:\lloydf\datapipe-test-stereo\ P:\Temp\PipelineTest\TestMatchIDStereo 
  ```
 python -m datasim --duration 300.0 --output "F:/lloydf/datapipe-test-stereo" --frequency 1.0 --stereo True
  ```
+5. Wait approximately 60 seconds and then make sure robocopy is syncing files to the power scale.
+6. Terminal 3: Run MatchID stereo on the images which have been moved to the powerscale (P:) drive. Note that we will use a manually pre-modified \*.m3inp with full paths pointing to the P: drive. A tool will need to be developed to do this automatically in the future.
+```
+matchidstereo.exe "F:\lloydf\matchidstereo\Job.m3inp"
+```
+7. Check that the output has appeared in the output \*.dat has appeared in the output directory specified in the \*.m3inp which is "P:\Temp\PipelineTest\TestMatchIDOutput"
+8. Check that the data has processed correctly by opening it in the results viewer:
+```
+matchidstereo.exe -show "F:\lloydf\matchidstereo\Job.m3inp"
+```
+You should see the following if you switch to the last frame and select to view the vertical strain Eyy:
+
+|![fig_matchid3d_output](readmedata/MatchIDStereoOutput.png)|
+|:--:|
+|*MatchID results viewer showing the expected output for the stereo test case.*|
